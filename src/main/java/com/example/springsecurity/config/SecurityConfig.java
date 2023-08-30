@@ -14,42 +14,37 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableWebSecurity
 public class SecurityConfig {
 
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+//         http.csrf().disable();
+//    http.headers().frameOptions().disable();
+    http.authorizeHttpRequests(authorize -> authorize
+        .requestMatchers("/users/**").permitAll()
+          .requestMatchers(PathRequest.toH2Console()).permitAll()
+    );
 
-/*        http
-                .csrf((csrfConfig) ->
-                        csrfConfig.disable()
-                ) // 1번
-                .headers((headerConfig) ->
-                        headerConfig.frameOptions(frameOptionsConfig ->
-                                frameOptionsConfig.disable()
-                        )
-                )// 2번
-                .authorizeHttpRequests((authorizeRequests) ->
-                        authorizeRequests
-                                .requestMatchers(PathRequest.toH2Console()).permitAll()
-                                .requestMatchers("/", "/login/**").permitAll()
-                                .requestMatchers("/posts/**", "/api/v1/posts/**").hasRole(Role.USER.name())
-                                .requestMatchers("/admins/**", "/api/v1/admins/**").hasRole(Role.ADMIN.name())
-                                .anyRequest().authenticated()
-                )// 3번
-                .exceptionHandling((exceptionConfig) ->
-                        exceptionConfig.authenticationEntryPoint(unauthorizedEntryPoint).accessDeniedHandler(accessDeniedHandler)
-                ) // 401 403 관련 예외처리
-                .formLogin((formLogin) ->
-                        formLogin
-                                .loginPage("/login/login") // 1번
-                                .usernameParameter("username") // 2번
-                                .passwordParameter("password") // 3번
-                                .loginProcessingUrl("/login/login-proc") // 4번
-                                .defaultSuccessUrl("/", true) // 5번
-                )
-                .logout((logoutConfig) ->
-                        logoutConfig.logoutSuccessUrl("/") // 6번
-                )
-                .userDetailsService(myUserDetailsService); // 7번
 
-        */ return http.build();
+//        http
+////                .csrf().disable().cors().disable()
+//                .authorizeHttpRequests(request -> request
+////                        .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
+//                        .requestMatchers("/").permitAll()
+//                        .requestMatchers("/member/**").authenticated()
+//                        .requestMatchers("/admin/**").hasRole("ADMIN")
+//                        .requestMatchers("/manager/**").hasRole("MANAGER")
+//                        .anyRequest().authenticated()
+//                )
+//                .formLogin(login -> login
+//                        .loginPage("/login")    //로그인 페이지 설정
+//                        .loginProcessingUrl("/login")    //로그인 처리 URL 설정
+//                        .usernameParameter("username")    // [C] submit할 아이디
+//                        .passwordParameter("password")    // [D] submit할 비밀번호
+//                        .defaultSuccessUrl("/loginSuccess", true)  //로그인 성공 후 이동할 페이지
+//                        .permitAll()
+//                )
+//                .logout(withDefaults());
+
+        return http.build();
     }
 }
