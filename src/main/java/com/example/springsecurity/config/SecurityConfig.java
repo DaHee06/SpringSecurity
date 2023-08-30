@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -14,21 +15,24 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableWebSecurity
 public class SecurityConfig {
 
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 //         http.csrf().disable();
 //    http.headers().frameOptions().disable();
-    http.authorizeHttpRequests(authorize -> authorize
-        .requestMatchers("/users/**").permitAll()
-          .requestMatchers(PathRequest.toH2Console()).permitAll()
-    );
+        //3.1.2 ~ 3.0.10
+        http.authorizeHttpRequests(authorize -> authorize
+                .requestMatchers(new AntPathRequestMatcher("/")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/member/**")).authenticated()
+                .requestMatchers(new AntPathRequestMatcher("/admin/**")).hasRole("ADMIN")
+                .anyRequest().authenticated()
+        );
 
 
+        //3.0.2
 //        http
-////                .csrf().disable().cors().disable()
+//                .csrf().disable().cors().disable()
 //                .authorizeHttpRequests(request -> request
-////                        .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
+//                        .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
 //                        .requestMatchers("/").permitAll()
 //                        .requestMatchers("/member/**").authenticated()
 //                        .requestMatchers("/admin/**").hasRole("ADMIN")
@@ -44,7 +48,7 @@ public class SecurityConfig {
 //                        .permitAll()
 //                )
 //                .logout(withDefaults());
-
+//
         return http.build();
     }
 }
