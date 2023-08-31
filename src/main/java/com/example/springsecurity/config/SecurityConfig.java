@@ -20,35 +20,33 @@ public class SecurityConfig {
 //         http.csrf().disable();
 //    http.headers().frameOptions().disable();
         //3.1.2 ~ 3.0.10
-        http.authorizeHttpRequests(authorize -> authorize
-                .requestMatchers(new AntPathRequestMatcher("/")).permitAll()
-                .requestMatchers(new AntPathRequestMatcher("/member/**")).authenticated()
-                .requestMatchers(new AntPathRequestMatcher("/admin/**")).hasRole("ADMIN")
-                .anyRequest().authenticated()
-        );
+//        http.authorizeHttpRequests(authorize -> authorize
+//                .requestMatchers(new AntPathRequestMatcher("/")).permitAll()
+//                .requestMatchers(new AntPathRequestMatcher("/member/**")).authenticated()
+//                .requestMatchers(new AntPathRequestMatcher("/admin/**")).hasRole("ADMIN")
+//                .anyRequest().authenticated()
+//        );
 
 
         //3.0.2
-//        http
-//                .csrf().disable().cors().disable()
-//                .authorizeHttpRequests(request -> request
-//                        .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-//                        .requestMatchers("/").permitAll()
-//                        .requestMatchers("/member/**").authenticated()
-//                        .requestMatchers("/admin/**").hasRole("ADMIN")
-//                        .requestMatchers("/manager/**").hasRole("MANAGER")
-//                        .anyRequest().authenticated()
-//                )
-//                .formLogin(login -> login
-//                        .loginPage("/login")    //로그인 페이지 설정
-//                        .loginProcessingUrl("/login")    //로그인 처리 URL 설정
-//                        .usernameParameter("username")    // [C] submit할 아이디
-//                        .passwordParameter("password")    // [D] submit할 비밀번호
-//                        .defaultSuccessUrl("/loginSuccess", true)  //로그인 성공 후 이동할 페이지
-//                        .permitAll()
-//                )
-//                .logout(withDefaults());
-//
+        http
+                .csrf().disable().cors().disable()
+                .authorizeHttpRequests(request -> request
+                        .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
+                        .requestMatchers("/").permitAll()
+                        .requestMatchers("/member/**").authenticated()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/manager/**").hasRole("MANAGER")
+                        .anyRequest().authenticated()
+                )
+                .formLogin(login -> login
+                        .loginPage("/login")    //로그인 페이지 설정
+                        .loginProcessingUrl("/login")    //로그인 처리 URL 설정
+                        .defaultSuccessUrl("/loginSuccess", true)  //로그인 성공 후 이동할 페이지
+                        .permitAll()
+                )
+                .logout(withDefaults());
+
         return http.build();
     }
 }
