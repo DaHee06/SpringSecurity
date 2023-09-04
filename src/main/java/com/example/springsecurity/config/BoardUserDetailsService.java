@@ -3,6 +3,7 @@ package com.example.springsecurity.config;
 import com.example.springsecurity.domain.Member;
 import com.example.springsecurity.persistence.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -24,7 +25,11 @@ public class BoardUserDetailsService implements UserDetailsService {
 			throw new UsernameNotFoundException(username + " 사용자 없음");
 		} else {
 			Member member = optional.get();
-			return new SecurityUser(member);
+			return User.builder()
+                .username(member.getId())
+                .password(member.getPassword())
+					.roles(member.getRole().toString())
+                .build();
 		}
 	}
 }
