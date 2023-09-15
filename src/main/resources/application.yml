@@ -26,6 +26,10 @@ spring:
     console:
       enabled: true
 
+jwt:
+  issuer : todayda1006@gmail.com
+  secret_key : spring_security
+
 logging:
   level:
     org:
