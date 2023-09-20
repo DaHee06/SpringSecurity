@@ -37,7 +37,7 @@ public class CookieUtil {
         }
     }
 
-    //객체를 직렬화해 쿠키의 값으로 변환
+    //객체를 직렬화해 쿠키의 값으로 변환 ( 직렬화 : 받은 객체를 문자열로 반환) : URL에서 안전하게 전송하거나 저장할 수 있는 문자열로 반환
     public static String serialize(Object obj) {
         return Base64.getUrlEncoder()
                 .encodeToString(SerializationUtils.serialize(obj));
