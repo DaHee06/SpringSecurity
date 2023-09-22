@@ -73,7 +73,9 @@ public class WebOAuthSecurityConfig {
                 .logoutSuccessUrl("/login");
 
 
-        // /api로 시작하는 url인 경우 401 상태 코드를 반환하도록 예외 처리
+        // /api로 시작하는 url인 경우 인증 실패시 401 상태 코드를 반환하도록 예외 처리
+        // http.exceptionHandling() : 예외 처리 및 인증 실패 처리를 구성하는 데 사용되는 메서드, 인증 실패시 어떤 동작을 수행될지를 지정
+        // defaultAuthenticationEntryPointFor() : 특정 경로에 대한 인증 실패 처리 구성
         http.exceptionHandling()
                 .defaultAuthenticationEntryPointFor(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED),
                         new AntPathRequestMatcher("/api/**"));
