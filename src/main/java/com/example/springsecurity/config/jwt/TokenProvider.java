@@ -27,15 +27,18 @@ public class TokenProvider {
         return makeToken(new Date(now.getTime() + expiredAt.toMillis()), user);
     }
 
+    /**
+     * Jwts
+     * : JWT 라이브러리인 jjwt(Java JWT) 라이브러리의 일부 & JWT를 생성하기 위한 유틸리티 클래스
+     * JSON Web Token을 생성하고 파싱하는데 사용
+     *
+     * 토큰 : 헤더.클레임.서명
+     */
+
+
     //jjwt라이브러리를 사용하여 JWT를 생성 - JWT 토큰 생성 메서드
     private String makeToken(Date expiry, User user) {
         Date now = new Date();
-
-        /**
-         * Jwts
-         * : JWT 라이브러리인 jjwt(Java JWT) 라이브러리의 일부 & JWT를 생성하기 위한 유틸리티 클래스
-         * JSON Web Token을 생성하고 파싱하는데 사용
-         */
 
         return Jwts.builder()
                 .setHeaderParam(Header.TYPE, Header.JWT_TYPE) //헤더
@@ -49,12 +52,12 @@ public class TokenProvider {
     }
 
     //JWT 토큰 유효성 검증 및 파싱
+    //토큰 : 헤더.클레임.서명으로 되어있는데 이때
     public boolean validToken(String token) {
         try {
             Jwts.parser()
-                    .setSigningKey(jwtProperties.getSecretKey()) // JWT의 서명을 검증하기 위해 사용할 서명키를 설정 --> 서명키는 사용된 비밀키와 일치
+                    .setSigningKey(jwtProperties.getSecretKey()) // JWT토큰과 서명키는 사용된 비밀키와 일치 : token의 서명키를 가져온 후 jwtProperties의 서명키와 일치해야함
                     .parseClaimsJws(token);  //주어진 JWT를 파싱하고 서명 검증 -- 클레임 정보를 추출하여 서명 유효한지 확인
-
             return true;
         } catch (Exception e) { //복호화
             return false;
@@ -63,6 +66,7 @@ public class TokenProvider {
 
 
     //토큰 기반으로 인증 정보를 가져오는 메서드 -> Authentication 객체생성하여 시큐리티에서 사용자의 인증 및 권한 부여 관리하는데 이용
+    //SimpleGrantedAuthority : 권한을 나타내는 클래스, 문자열로 표현된 권한을 저장 -> 권한을 확인하여 특정 리소스에 접근할 수 있는지 여부 확인
     public Authentication getAuthentication(String token) {
         Claims claims = getClaims(token);
         //ROLE_USER 권한을 가진 SimpleGrantedAuthority 객체(사용자의 권한을 나타내는 객체) 생성

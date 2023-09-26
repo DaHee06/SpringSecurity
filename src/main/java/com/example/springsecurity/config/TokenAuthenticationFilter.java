@@ -30,7 +30,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         //위의 헤더값에서 실제 엑세스 토큰을 추출
         String token = getAccessToken(authorizationHeader);
 
-        //만약 토큰이 유효하다면, JWT 토큰을 사용하여 사용자 인증 정보를 추출하여 사용자의 보안 컨텍스트 설정
+        //만약 토큰이 유효하다면, JWT 토큰을 사용하여 사용자 인증 정보를 추출하여 사용자의 보안 컨텍스트(SecurityContext) 애 저장
         //이후 요청에서 사용자의 신원을 파악할 수 있다.
         if (tokenProvider.validToken(token)) {
             Authentication authentication = tokenProvider.getAuthentication(token);
