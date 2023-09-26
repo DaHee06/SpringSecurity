@@ -94,7 +94,7 @@ public class WebOAuthSecurityConfig {
         );
     }
 
-    //HTTP 헤더에서 엑세스 토큰 비교함
+    //HTTP 헤더에서 엑세스 토큰 비교함 - 헤더에서 엑세스 토큰 호출하여 유효시 사용자 인증 정보 저장
     @Bean
     public TokenAuthenticationFilter tokenAuthenticationFilter() {
         return new TokenAuthenticationFilter(tokenProvider);
