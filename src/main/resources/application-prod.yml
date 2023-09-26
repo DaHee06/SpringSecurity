@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/spring_security
+    username: root
+    password: 1234
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 748275841699-557n8fc8dgo0ruuuiuivas50al76mgms.apps.googleusercontent.com
+            client-secret: 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
+            scope:
+              - email
+              - profile
+
+
+jwt:
+  issuer : todayda1006@gmail.com
+  secret_key : spring_security
